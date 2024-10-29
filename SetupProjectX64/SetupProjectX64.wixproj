@@ -1,0 +1,36 @@
+<Project Sdk="WixToolset.Sdk/5.0.2">
+  <PropertyGroup>
+    <DllPath>..\x64\Debug</DllPath>
+    <TlbPath>..\Polygon\x64\Debug</TlbPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DefineConstants>Debug;DllPath=$(DllPath);TlbPath=$(TlbPath)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Heat" Version="5.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <HarvestFile Include="$(TlbPath)/Polygon.tlb">
+      <ComponentGroupName>HarvestFileTlb</ComponentGroupName>
+      <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
+      <SupressRegistry>false</SupressRegistry>
+      <SuppressCom>false</SuppressCom>
+      <PreprocessorVariable>TlbPath</PreprocessorVariable>
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+    </HarvestFile>
+  </ItemGroup>
+  <ItemGroup>
+    <HarvestFile Include="$(DllPath)/Polygon.dll">
+      <ComponentGroupName>HarvestFileDll</ComponentGroupName>
+      <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
+      <SupressRegistry>false</SupressRegistry>
+      <SuppressCom>false</SuppressCom>
+      <PreprocessorVariable>DllPath</PreprocessorVariable>
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+    </HarvestFile>
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(HeatExe64)&quot; file &quot;$(DllPath)/Polygon.dll&quot; -dr INSTALLFOLDER -out &quot;HeatExeX64.wxs&quot; -cg HeatExeX64 -srd -gg -var DllPath" />
+    <Exec Command="&quot;$(HeatExe)&quot; file &quot;$(DllPath)/Polygon.dll&quot; -dr TEST -out &quot;HeatExeX86.wxs&quot; -cg HeatExeX86 -srd -gg -var DllPath" />
+  </Target>
+</Project>

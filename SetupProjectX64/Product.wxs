@@ -1,0 +1,20 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="SetupProjectX64" Language="1033" Version="1.0.0.0" Manufacturer="Beckhoff" UpgradeCode="a9e69228-d151-4c77-9bc4-920ce5792716" InstallerVersion="200">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <Feature Id="ProductFeature" Title="SetupProject" Level="1">
+      <ComponentGroupRef Id="HarvestFileTlb" />
+      <ComponentGroupRef Id="HarvestFileDll" />
+      <ComponentGroupRef Id="HeatExeX64" />
+      <ComponentGroupRef Id="HeatExeX86" />
+    </Feature>
+  </Package>
+
+  <Fragment>
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="SetupProject">
+        <Directory Id="TEST" Name="Test" />
+      </Directory>
+    </StandardDirectory>
+  </Fragment>
+</Wix>
